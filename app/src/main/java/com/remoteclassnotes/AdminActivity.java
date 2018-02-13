@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -15,6 +16,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.w3c.dom.Text;
 
@@ -34,11 +38,15 @@ import java.io.IOException;
 public class AdminActivity extends AppCompatActivity {
 
     private FirebaseUser user;
-    private TextView mUser;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
+
     private static final int READ_PERMISSION_CODE = 1;
     private static final int WRITE_PERMISSION_CODE = 2;
+
+    private TextView mUser;
+    private Button mDownload;
+    private Button mUpload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,32 +60,59 @@ public class AdminActivity extends AppCompatActivity {
         mUser = (TextView) findViewById(R.id.text_current_user);
         mUser.setText(user.getEmail());
 
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_PERMISSION_CODE);
         }
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
         }
 
-        StorageReference ref = storageReference.child("preprocessing(module II).ppt");
+        mDownload = (Button) findViewById(R.id.btn_download_file);
+        mDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StorageReference ref = storageReference.child("preprocessing(module II).ppt");
+                File storagePath = new File(Environment.getExternalStorageDirectory(), "RemoteClassNotes");
+                if (!storagePath.exists()) {
+                    storagePath.mkdirs();
+                }
 
-            File storagePath = new File(Environment.getExternalStorageDirectory(), "RemoteClassNotes");
-            if(!storagePath.exists()) {
-                storagePath.mkdirs();
+                final File actualFile = new File(storagePath, "preprocessing.ppt");
+                ref.getFile(actualFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(AdminActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AdminActivity.this, "Fail", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-            final File actualFile = new File(storagePath, "preprocessing.ppt");
-            ref.getFile(actualFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(AdminActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(AdminActivity.this, "Fail", Toast.LENGTH_SHORT).show();
-                }
-            });
+        });
 
+        mUpload = (Button) findViewById(R.id.btn_upload_file);
+        mUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri file = Uri.fromFile(new File("/storage/emulated/0/SampleNotes/sample.pdf"));
+                StorageReference sampleRef = storageReference.child("sample.pdf");
+                UploadTask uploadTask = sampleRef.putFile(file);
+
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(AdminActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AdminActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     @Override
