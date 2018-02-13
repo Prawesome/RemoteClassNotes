@@ -12,6 +12,11 @@ public class NoteFile {
 
     }
 
+    public NoteFile(String fileName, String downloadUrl) {
+        this.fileName = fileName;
+        this.downloadUrl = downloadUrl;
+    }
+
     public String getFileName() {
         return fileName;
     }
