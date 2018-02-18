@@ -36,7 +36,6 @@ public class DownloadActivity extends AppCompatActivity {
         mFilesList = (ListView) findViewById(R.id.list_download_items);
         filesList = new ArrayList<NoteFile>();
 
-
         firebaseDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -71,7 +70,6 @@ public class DownloadActivity extends AppCompatActivity {
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                 CustomTabsIntent customTabsIntent = builder.build();
                 customTabsIntent.launchUrl(DownloadActivity.this, Uri.parse(noteFile.getDownloadUrl()));
-                builder.setToolbarColor(R.color.colorPrimaryDark);
             }
         });
     }
