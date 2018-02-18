@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mLoginButton;
     private EditText mEmailField;
     private EditText mPasswordField;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mEmailField = (EditText) findViewById(R.id.et_login_username);
         mPasswordField = (EditText) findViewById(R.id.et_login_password);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_login);
 
         mEmailField.setText("test@xyz.in");
         mPasswordField.setText("openopen");
@@ -39,7 +42,9 @@ public class LoginActivity extends AppCompatActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               firebaseAuth.signInWithEmailAndPassword(mEmailField.getText().toString(), mPasswordField.getText().toString())
+                mLoginButton.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.VISIBLE);
+                firebaseAuth.signInWithEmailAndPassword(mEmailField.getText().toString(), mPasswordField.getText().toString())
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -50,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                                 }
+                                mLoginButton.setVisibility(View.VISIBLE);
+                                mProgressBar.setVisibility(View.GONE);
                             }
                         });
             }
