@@ -70,17 +70,13 @@ public class AdminActivity extends AppCompatActivity {
         mUserField = (TextView) findViewById(R.id.text_current_user);
         mUserField.setText(user.getEmail());
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_PERMISSION_CODE);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
-        }
-
         mDownload = (Button) findViewById(R.id.btn_download_file);
         mDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                startActivity(new Intent(AdminActivity.this, DownloadActivity.class));
+                /*
                 StorageReference ref = storageReference.child("preprocessing(module II).ppt");
                 File storagePath = new File(Environment.getExternalStorageDirectory(), "RemoteClassNotes");
                 if (!storagePath.exists()) {
@@ -99,6 +95,7 @@ public class AdminActivity extends AppCompatActivity {
                         Toast.makeText(AdminActivity.this, "Fail", Toast.LENGTH_SHORT).show();
                     }
                 });
+                */
             }
         });
 
@@ -170,6 +167,16 @@ public class AdminActivity extends AppCompatActivity {
     private void logOut() {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(AdminActivity.this, LoginActivity.class));
+    }
+
+    private void requestStoragePermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_PERMISSION_CODE);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+        }
+
     }
 
     /**
