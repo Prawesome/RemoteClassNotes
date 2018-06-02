@@ -1,6 +1,5 @@
 package com.remoteclassnotes;
 
-import android.*;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentUris;
@@ -56,7 +55,6 @@ public class AdminActivity extends AppCompatActivity {
 
     private TextView mUserField;
     private Button mDownload;
-    private Button mUpload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,39 +74,9 @@ public class AdminActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 startActivity(new Intent(AdminActivity.this, DownloadActivity.class));
-                /*
-                StorageReference ref = storageReference.child("preprocessing(module II).ppt");
-                File storagePath = new File(Environment.getExternalStorageDirectory(), "RemoteClassNotes");
-                if (!storagePath.exists()) {
-                    storagePath.mkdirs();
-                }
-
-                final File actualFile = new File(storagePath, "preprocessing.ppt");
-                ref.getFile(actualFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(AdminActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AdminActivity.this, "Fail", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                */
             }
         });
 
-        mUpload = (Button) findViewById(R.id.btn_upload_file);
-        mUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
-                startActivityForResult(intent, READ_REQUEST_CODE);
-            }
-        });
     }
 
     @Override
