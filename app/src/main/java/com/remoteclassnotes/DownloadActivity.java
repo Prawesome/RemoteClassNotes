@@ -1,22 +1,25 @@
 package com.remoteclassnotes;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +40,8 @@ public class DownloadActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("files");
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progress_download);
-        mFilesList = (ListView) findViewById(R.id.list_download_items);
+        mProgressBar = findViewById(R.id.progress_download);
+        mFilesList = findViewById(R.id.list_download_items);
         filesList = new ArrayList<NoteFile>();
 
         firebaseDatabase.addChildEventListener(new ChildEventListener() {
@@ -78,5 +81,27 @@ public class DownloadActivity extends AppCompatActivity {
                 customTabsIntent.launchUrl(DownloadActivity.this, Uri.parse(noteFile.getDownloadUrl()));
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_logout, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if(user != null) {
+                    FirebaseAuth.getInstance().signOut();
+                }
+                startActivity(new Intent(DownloadActivity.this, LoginActivity.class));
+                return true;
+            default:
+                return  super.onOptionsItemSelected(item);
+        }
     }
 }

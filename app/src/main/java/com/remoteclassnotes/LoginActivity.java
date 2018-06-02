@@ -63,13 +63,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null) {
-            FirebaseAuth.getInstance().signOut();
-        }
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if(user != null) {
+//            FirebaseAuth.getInstance().signOut();
+//        }
+//    }
 }
