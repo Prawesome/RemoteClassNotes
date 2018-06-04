@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
@@ -14,7 +16,8 @@ import java.util.List;
  */
 
 public class FileAdapter extends ArrayAdapter<NoteFile> {
-    public FileAdapter(Context context, int resource, List<NoteFile> objects) {
+
+    FileAdapter(Context context, int resource, List<NoteFile> objects) {
         super(context, resource, objects);
     }
 
@@ -26,10 +29,17 @@ public class FileAdapter extends ArrayAdapter<NoteFile> {
 
         TextView mFileName = (TextView) view.findViewById(R.id.text_item_file_name);
         TextView mDownloadUrl = (TextView) view.findViewById(R.id.text_item_url);
+        TextView mSubjectField = view.findViewById(R.id.text_item_subject);
+        TextView mDescriptionField = view.findViewById(R.id.text_item_description);
 
         NoteFile file = getItem(position);
-        mFileName.setText(file.getFileName());
-        mDownloadUrl.setText(file.getDownloadUrl());
+
+        if (file != null) {
+            mFileName.setText(file.getFileName());
+            mDownloadUrl.setText(file.getDownloadUrl());
+            mSubjectField.setText(file.getSubjectName());
+            mDescriptionField.setText(file.getDescription());
+        }
 
         return view;
     }
