@@ -30,6 +30,7 @@ public class DownloadActivity extends AppCompatActivity {
     private List<NoteFile> filesList;
     private FileAdapter mAdapter;
     private ProgressBar mProgressBar;
+    String subjectName;
 
     private DatabaseReference firebaseDatabase;
 
@@ -37,6 +38,9 @@ public class DownloadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
+
+        Intent intent = getIntent();
+        subjectName = intent.getStringExtra("SUBJECT_NAME");
 
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("files");
 
@@ -48,10 +52,12 @@ public class DownloadActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 NoteFile noteFile = dataSnapshot.getValue(NoteFile.class);
-                filesList.add(noteFile);
-                mAdapter = new FileAdapter(DownloadActivity.this, R.layout.item_file, filesList);
-                mFilesList.setAdapter(mAdapter);
-                mProgressBar.setVisibility(View.GONE);
+                if(noteFile.getSubjectName().equals(subjectName)) {
+                    filesList.add(noteFile);
+                    mAdapter = new FileAdapter(DownloadActivity.this, R.layout.item_file, filesList);
+                    mFilesList.setAdapter(mAdapter);
+                    mProgressBar.setVisibility(View.GONE);
+                }
             }
 
             @Override

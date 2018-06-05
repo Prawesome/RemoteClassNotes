@@ -1,8 +1,10 @@
 package com.remoteclassnotes;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -29,7 +31,7 @@ public class FolderSelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_folder_select);
 
         mSubjectList = findViewById(R.id.list_subjects);
-        mProgressBar = findViewById(R.id.progress_download);
+        mProgressBar = findViewById(R.id.progress_subject);
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("subjects");
         subjectsList = new ArrayList<>();
@@ -65,5 +67,13 @@ public class FolderSelectActivity extends AppCompatActivity {
             }
         });
 
+        mSubjectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(FolderSelectActivity.this, DownloadActivity.class);
+                intent.putExtra("SUBJECT_NAME", mSubjectAdapter.getItem(position));
+                startActivity(intent);
+            }
+        });
     }
 }
