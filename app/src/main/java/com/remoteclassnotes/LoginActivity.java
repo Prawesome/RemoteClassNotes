@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
                                     Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, DownloadActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, FolderSelectActivity.class));
                                     finish();
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
