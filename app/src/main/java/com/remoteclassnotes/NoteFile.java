@@ -7,19 +7,19 @@ package com.remoteclassnotes;
 public class NoteFile {
     private String fileName;
     private String downloadUrl;
-    private String description;
+    private String fileDetails;
     private String subjectName;
 
     public NoteFile() {
 
     }
 
-    public String getDescription() {
-        return description;
+    public String getFileDetails() {
+        return fileDetails;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setFileDetails(String fileDetails) {
+        this.fileDetails = fileDetails;
     }
 
     public String getSubjectName() {

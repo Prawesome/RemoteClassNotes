@@ -38,7 +38,7 @@ public class FileAdapter extends ArrayAdapter<NoteFile> {
             mFileName.setText(file.getFileName());
             mDownloadUrl.setText(file.getDownloadUrl());
             mSubjectField.setText(file.getSubjectName());
-            mDescriptionField.setText(file.getDescription());
+            mDescriptionField.setText(file.getFileDetails());
         }
 
         return view;
