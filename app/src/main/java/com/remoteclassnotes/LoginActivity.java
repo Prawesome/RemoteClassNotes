@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -50,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
                                     Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
+                                    FirebaseMessaging.getInstance().subscribeToTopic("RCN");
                                     startActivity(new Intent(LoginActivity.this, FolderSelectActivity.class));
                                     finish();
                                 } else {
@@ -62,14 +64,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        if(user != null) {
-//            FirebaseAuth.getInstance().signOut();
-//        }
-//    }
 }

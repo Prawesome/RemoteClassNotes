@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +105,7 @@ public class DownloadActivity extends AppCompatActivity {
                 if(user != null) {
                     FirebaseAuth.getInstance().signOut();
                 }
+                FirebaseMessaging.getInstance().unsubscribeFromTopic("RCN");
                 startActivity(new Intent(DownloadActivity.this, LoginActivity.class));
                 return true;
             default:

@@ -24,6 +24,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DownloadActivity" />
         <activity android:name=".FolderSelectActivity"></activity>
+
     </application>
 
 </manifest>
