@@ -18,7 +18,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +103,11 @@ public class FolderSelectActivity extends AppCompatActivity {
                 Utils.logout();
                 Utils.unSubscribeFromNotification();
                 return true;
+            case R.id.action_about:
+                startActivity(new Intent(FolderSelectActivity.this, AboutActivity.class));
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(FolderSelectActivity.this, SettingsActivity.class));
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -112,7 +116,7 @@ public class FolderSelectActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_logout, menu);
+        inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 }

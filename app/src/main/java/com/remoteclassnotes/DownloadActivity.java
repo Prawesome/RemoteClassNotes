@@ -1,6 +1,7 @@
 package com.remoteclassnotes;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDoneException;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
@@ -13,14 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +91,7 @@ public class DownloadActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_logout, menu);
+        inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -105,6 +103,11 @@ public class DownloadActivity extends AppCompatActivity {
                 Utils.unSubscribeFromNotification();
                 startActivity(new Intent(DownloadActivity.this, LoginActivity.class));
                 return true;
+            case R.id.action_about:
+                startActivity(new Intent(DownloadActivity.this, AboutActivity.class));
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(DownloadActivity.this, SettingsActivity.class));
             default:
                 return  super.onOptionsItemSelected(item);
         }
