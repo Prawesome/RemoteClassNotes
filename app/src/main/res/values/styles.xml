@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/open_sans</item>
         <item name="fontFamily">@font/open_sans</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
