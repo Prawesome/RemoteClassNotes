@@ -101,13 +101,8 @@ public class DownloadActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                //TODO: Move to util java class
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if(user != null) {
-                    FirebaseAuth.getInstance().signOut();
-                }
-                //TODO: Move RCN constant to new class
-                FirebaseMessaging.getInstance().unsubscribeFromTopic("RCN");
+                Utils.logout();
+                Utils.unSubscribeFromNotification();
                 startActivity(new Intent(DownloadActivity.this, LoginActivity.class));
                 return true;
             default:
