@@ -12,7 +12,11 @@ public class Utils {
         }
     }
 
-    public static void unSubscribeFromNotification() {
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(Constants.NOTIFICATION_TOPIC);
+    public static void unSubscribeFromNotification(String topic) {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
+    }
+
+    public static void subscribeToTopic(String topic) {
+        FirebaseMessaging.getInstance().subscribeToTopic(topic);
     }
 }

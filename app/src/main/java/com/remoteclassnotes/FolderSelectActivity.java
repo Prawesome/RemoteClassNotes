@@ -53,6 +53,11 @@ public class FolderSelectActivity extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FolderSelectActivity.this);
         Boolean notificationTogglePref = preferences.getBoolean(Constants.KEY_PREF_NOTIFICATION_TOGGLE, true);
 
+        if(!notificationTogglePref) {
+            Utils.unSubscribeFromNotification(Constants.NOTIFICATION_TOPIC);
+            Toast.makeText(FolderSelectActivity.this, "Unsubscribed from notifications", Toast.LENGTH_SHORT).show();
+        }
+
         Toast.makeText(this, notificationTogglePref.toString(), Toast.LENGTH_SHORT).show();
 
         mSubjectList = findViewById(R.id.list_subjects);
@@ -111,7 +116,7 @@ public class FolderSelectActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_logout:
                 Utils.logout();
-                Utils.unSubscribeFromNotification();
+                Utils.unSubscribeFromNotification(Constants.NOTIFICATION_TOPIC);
                 return true;
             case R.id.action_about:
                 startActivity(new Intent(FolderSelectActivity.this, AboutActivity.class));

@@ -100,7 +100,7 @@ public class DownloadActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_logout:
                 Utils.logout();
-                Utils.unSubscribeFromNotification();
+                Utils.unSubscribeFromNotification(Constants.NOTIFICATION_TOPIC);
                 startActivity(new Intent(DownloadActivity.this, LoginActivity.class));
                 return true;
             case R.id.action_about:
