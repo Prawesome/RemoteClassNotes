@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v7.preference.CheckBoxPreferenceCompat
+    <CheckBoxPreference
         android:defaultValue="true"
         android:key="check_notification_toggle"
         android:summary="Receive notification whenever new notes are uploaded"
