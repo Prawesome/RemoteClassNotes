@@ -25,7 +25,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DownloadActivity" />
         <activity android:name=".FolderSelectActivity" />
-        <activity android:name=".AboutActivity" />
+        <activity android:name=".AboutActivity" android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".SettingsActivity"></activity>
     </application>
 
