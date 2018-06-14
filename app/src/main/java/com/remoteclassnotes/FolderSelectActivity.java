@@ -1,6 +1,8 @@
 package com.remoteclassnotes;
 
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,11 +30,21 @@ public class FolderSelectActivity extends AppCompatActivity {
     private ListView mSubjectList;
     private SubjectAdapter mSubjectAdapter;
     private ProgressBar mProgressBar;
+    private ConstraintLayout mRootLayout;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder_select);
+
+        mRootLayout = findViewById(R.id.layout_folder_select);
+        mRootLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+
+        actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.hide();
+        }
 
         mSubjectList = findViewById(R.id.list_subjects);
         mProgressBar = findViewById(R.id.progress_subject);
@@ -48,6 +60,8 @@ public class FolderSelectActivity extends AppCompatActivity {
                 mSubjectAdapter = new SubjectAdapter(FolderSelectActivity.this, R.layout.item_subject, subjectsList);
                 mSubjectList.setAdapter(mSubjectAdapter);
                 mProgressBar.setVisibility(View.GONE);
+                mRootLayout.setBackgroundColor(getResources().getColor(android.R.color.white));
+                actionBar.show();
             }
 
             @Override
