@@ -30,5 +30,5 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SettingsActivity"></activity>
     </application>
-
+<!-- TODO: IMPLEMENT BACK NAVIGATION -->
 </manifest>
