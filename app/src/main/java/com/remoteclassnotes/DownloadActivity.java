@@ -38,15 +38,12 @@ public class DownloadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
 
+        initItems();
+
         Intent intent = getIntent();
         subjectName = intent.getStringExtra("SUBJECT_NAME");
 
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("files");
-
-        mProgressBar = findViewById(R.id.progress_download);
-        mFilesList = findViewById(R.id.list_download_items);
-        filesList = new ArrayList<NoteFile>();
-
         firebaseDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -111,5 +108,11 @@ public class DownloadActivity extends AppCompatActivity {
             default:
                 return  super.onOptionsItemSelected(item);
         }
+    }
+
+    private void initItems() {
+        mProgressBar = findViewById(R.id.progress_download);
+        mFilesList = findViewById(R.id.list_download_items);
+        filesList = new ArrayList<NoteFile>();
     }
 }

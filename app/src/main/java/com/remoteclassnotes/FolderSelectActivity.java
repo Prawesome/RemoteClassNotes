@@ -40,64 +40,17 @@ public class FolderSelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder_select);
 
-        mRootLayout = findViewById(R.id.layout_folder_select);
+        initItems();
+
         mRootLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 
-        actionBar = getSupportActionBar();
         if(actionBar != null) {
             actionBar.hide();
         }
 
-        PreferenceManager.setDefaultValues(FolderSelectActivity.this, R.xml.preferences, false);
+        handleNotificationToggle();
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FolderSelectActivity.this);
-        Boolean notificationTogglePref = preferences.getBoolean(Constants.KEY_PREF_NOTIFICATION_TOGGLE, true);
-
-        if(!notificationTogglePref) {
-            Utils.unSubscribeFromNotification(Constants.NOTIFICATION_TOPIC);
-            Toast.makeText(FolderSelectActivity.this, "Unsubscribed from notifications", Toast.LENGTH_SHORT).show();
-        }
-
-        Toast.makeText(this, notificationTogglePref.toString(), Toast.LENGTH_SHORT).show();
-
-        mSubjectList = findViewById(R.id.list_subjects);
-        mProgressBar = findViewById(R.id.progress_subject);
-
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("subjects");
-        subjectsList = new ArrayList<>();
-
-        databaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String subject = dataSnapshot.getValue(String.class);
-                subjectsList.add(subject);
-                mSubjectAdapter = new SubjectAdapter(FolderSelectActivity.this, R.layout.item_subject, subjectsList);
-                mSubjectList.setAdapter(mSubjectAdapter);
-                mProgressBar.setVisibility(View.GONE);
-                mRootLayout.setBackgroundColor(getResources().getColor(android.R.color.white));
-                actionBar.show();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        getData();
 
         mSubjectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -133,5 +86,62 @@ public class FolderSelectActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    private void initItems() {
+        mRootLayout = findViewById(R.id.layout_folder_select);
+        mSubjectList = findViewById(R.id.list_subjects);
+        mProgressBar = findViewById(R.id.progress_subject);
+        subjectsList = new ArrayList<>();
+        actionBar = getSupportActionBar();
+    }
+
+    private void getData() {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("subjects");
+
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String subject = dataSnapshot.getValue(String.class);
+                subjectsList.add(subject);
+                mSubjectAdapter = new SubjectAdapter(FolderSelectActivity.this, R.layout.item_subject, subjectsList);
+                mSubjectList.setAdapter(mSubjectAdapter);
+                mProgressBar.setVisibility(View.GONE);
+                mRootLayout.setBackgroundColor(getResources().getColor(android.R.color.white));
+                actionBar.show();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void handleNotificationToggle() {
+        PreferenceManager.setDefaultValues(FolderSelectActivity.this, R.xml.preferences, false);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FolderSelectActivity.this);
+        Boolean notificationTogglePref = preferences.getBoolean(Constants.KEY_PREF_NOTIFICATION_TOGGLE, true);
+
+        if(!notificationTogglePref) {
+            Utils.unSubscribeFromNotification(Constants.NOTIFICATION_TOPIC);
+            Toast.makeText(FolderSelectActivity.this, "Unsubscribed from notifications", Toast.LENGTH_SHORT).show();
+        }
     }
 }
